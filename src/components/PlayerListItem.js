@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
-export default function InitScrren() {
-  const [name, setName] = useState(["", "", ""]);
+export default function InitScrren({ item, index, setPlayerName }) {
+  const [name, setName] = useState(item);
 
   return (
     <View style={styles.listItem}>
@@ -10,6 +10,7 @@ export default function InitScrren() {
         style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
         onChangeText={setName}
         value={name}
+        onEndEditing={() => setPlayerName(index, name)}
       />
     </View>
   );

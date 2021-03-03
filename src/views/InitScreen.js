@@ -2,36 +2,33 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import PlayerListItem from "../components/PlayerListItem";
+import { getRandomId } from "../helpers/functions";
 
 export default function InitScrren() {
   const [players, setPlayers] = useState(["", "", ""]);
 
-  const renderItem = ({ item, index }) => {
-    console.log(item);
-    return (
-      <View style={styles.listItem}>
-        <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-          onChangeText={(text) => {
-            const playersNames = Array.from(players);
-            playersNames[index] = text;
-            setPlayers([...playersNames]);
-          }}
-          value={players[index]}
-        />
-      </View>
-    );
-  };
-
   const addNewPlayer = () => setPlayers([...players, ""]);
+
+  const setPlayerName = (index, newName) => {
+    const playersNames = Array.from(players);
+    playersNames[index] = newName;
+    setPlayers([...playersNames]);
+  };
 
   return (
     <View style={styles.container}>
       <Text>Picolo</Text>
       <FlatList
         data={players}
-        renderItem={renderItem}
-        keyExtractor={(item) => item}
+        renderItem={({ item, index }) => (
+          <PlayerListItem
+            item={item}
+            index={index}
+            setPlayerName={setPlayerName}
+          />
+        )}
+        keyExtractor={getRandomId}
         style={styles.playerList}
         ListFooterComponent={() => (
           <TouchableOpacity onPress={addNewPlayer}>
